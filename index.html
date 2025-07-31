@@ -3,268 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Axspire AI — AI Solutions, Enterprise Software & Client‑Focused Technology Enablement">
   <title>Axspire AI — Aspire Intelligently</title>
   <style>
-    :root {
-      --bg-dark: #0A0F2C;
-      --bg-light: #ffffff;
-      --text-dark: #ffffff;
-      --text-light: #0A0F2C;
-      --primary: #00CFFF;
-      --secondary: #007BFF;
-    }
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-      transition: background 0.5s, color 0.5s;
-    }
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
     }
     header {
-      background: linear-gradient(90deg, #0A0F2C, #0D1B45);
-      padding: 20px 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    body.light header {
-      background: #f5f5f5;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(to right, #0ea5e9, #1e40af);
     }
     header img {
-      height: 50px;
+      width: 120px;
+      margin-bottom: 20px;
     }
-    nav a {
-      margin: 0 15px;
-      color: inherit;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
     }
-    nav a:hover {
-      color: var(--primary);
-    }
-    .theme-toggle {
-      cursor: pointer;
-      background: var(--primary);
-      border: none;
-      color: #0A0F2C;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-    }
-    .hero {
-      text-align: center;
-      padding: 120px 20px;
-      background: linear-gradient(to right, #0A0F2C, #14265A);
-    }
-    body.light .hero {
-      background: linear-gradient(to right, #ffffff, #e8f7ff);
-    }
-    .hero h1 {
-      font-size: 3rem;
-      color: var(--primary);
-      animation: fadeIn 1.5s ease-in-out;
-    }
-    .hero p {
+    header p {
       font-size: 1.2rem;
-      margin-top: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      animation: fadeIn 2s ease-in-out;
+      margin: 10px 0 20px;
     }
-    .cta-buttons {
-      margin-top: 40px;
-    }
-    .cta-buttons a {
-      display: inline-block;
-      margin: 10px;
-      padding: 15px 30px;
-      border-radius: 30px;
-      background: var(--primary);
-      color: #0A0F2C;
-      font-weight: bold;
+    .btn {
+      background: #38bdf8;
+      color: white;
+      padding: 12px 24px;
       text-decoration: none;
-      transition: 0.3s;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+      margin: 5px;
     }
-    .cta-buttons a:hover {
-      background: var(--secondary);
-      color: #fff;
-      box-shadow: 0 0 15px var(--primary);
+    .btn:hover {
+      background: #0ea5e9;
     }
     section {
-      padding: 80px 50px;
+      padding: 60px 20px;
       max-width: 1100px;
       margin: auto;
     }
     h2 {
+      color: #38bdf8;
+      margin-bottom: 20px;
       text-align: center;
-      color: var(--primary);
-      margin-bottom: 40px;
     }
-    .services {
+    .services, .why-choose {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-    .service {
-      background: #14265A;
-      padding: 30px;
-      border-radius: 12px;
-      transition: transform 0.3s;
-    }
-    body.light .service {
-      background: #f0f0f0;
-    }
-    .service:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-    .why-choose {
-      display: flex;
-      flex-wrap: wrap;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      justify-content: center;
     }
-    .why-card {
-      flex: 1 1 200px;
-      background: #14265A;
+    .card {
+      background: #1e293b;
       padding: 20px;
-      border-radius: 12px;
-      transition: 0.3s;
-    }
-    body.light .why-card {
-      background: #f0f0f0;
-    }
-    .cta-banner {
-      background: linear-gradient(90deg, #007BFF, #00CFFF);
-      color: #0A0F2C;
+      border-radius: 10px;
       text-align: center;
-      padding: 60px 20px;
-      border-radius: 15px;
-      margin-top: 50px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    .cta-banner a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 15px 30px;
-      border-radius: 30px;
-      background: #0A0F2C;
-      color: #00CFFF;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: auto;
     }
-    .cta-banner a:hover {
-      background: #ffffff;
-      color: #0A0F2C;
-      box-shadow: 0 0 15px #fff;
-    }
-    form input, form textarea, form button {
-      width: 100%;
+    .contact input, .contact textarea {
       padding: 12px;
-      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: #334155;
+      color: white;
+    }
+    .contact button {
+      background: #38bdf8;
+      color: white;
+      padding: 12px;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
-    }
-    form button {
-      background: var(--primary);
-      color: #0A0F2C;
-      font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
     }
-    form button:hover {
-      background: var(--secondary);
-      color: #fff;
+    .contact button:hover {
+      background: #0ea5e9;
     }
     footer {
-      background: #0D1B45;
       text-align: center;
-      padding: 30px;
-      color: #aaa;
-    }
-    body.light footer {
-      background: #f5f5f5;
-      color: #333;
-    }
-    footer a {
-      color: var(--primary);
-      margin: 0 10px;
-      text-decoration: none;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      padding: 20px;
+      background: #1e293b;
+      color: #94a3b8;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
+
+  <!-- Hero Section -->
   <header>
     <img src="logo1.png" alt="Axspire AI Logo">
-    <nav>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#why">Why Choose Us</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="theme-toggle" onclick="toggleTheme()">🌗 Mode</button>
+    <h1>Axspire AI</h1>
+    <p>Aspire Intelligently with AI‑powered innovation, enterprise solutions, and strategic enablement.</p>
+    <a href="#services" class="btn">Discover Our Solutions</a>
+    <a href="#contact" class="btn">Schedule a Consultation</a>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Aspire Intelligently. Lead Decisively.</h1>
-    <p>At Axspire AI, we transform ambition into intelligent reality. From AI‑powered innovation to enterprise‑grade technology solutions, we partner with our clients to build the future — faster, smarter, and stronger.</p>
-    <div class="cta-buttons">
-      <a href="#services">🚀 Start Your Journey</a>
-      <a href="#contact">📞 Book a Free Consultation</a>
-    </div>
-  </section>
-
-  <!-- About Us -->
+  <!-- About Section -->
   <section id="about">
-    <h2>Where AI Meets Client Ambition</h2>
-    <p>We believe innovation should be practical, scalable, and transformative. Our mission is to empower clients with tailored AI solutions, cutting‑edge software, and digital enablement strategies that deliver measurable impact. Why we exist: to help you not just keep pace with the future — but define it.</p>
+    <h2>Where Innovation Meets Execution</h2>
+    <p style="text-align:center; max-width:800px; margin:auto;">
+      At Axspire AI, we partner with clients to unlock the full potential of technology.
+      Our mission is clear: deliver AI‑driven solutions and transformative strategies
+      that fuel intelligent growth and long‑term success.
+    </p>
   </section>
 
-  <!-- Services -->
+  <!-- Services Section -->
   <section id="services">
-    <h2>Our Core Services</h2>
+    <h2>Our Services</h2>
     <div class="services">
-      <div class="service">
-        <h3>🤖 AI‑Powered Solutions</h3>
-        <ul>
-          <li>Predictive analytics & decision intelligence</li>
-          <li>Process automation with real ROI</li>
-          <li>Conversational AI & custom NLP platforms</li>
-        </ul>
+      <div class="card">
+        <h3>AI‑Powered Solutions</h3>
+        <p>Predictive analytics & business intelligence</p>
+        <p>Intelligent process automation</p>
+        <p>Conversational AI & NLP platforms</p>
       </div>
-      <div class="service">
-        <h3>💻 Software Development</h3>
-        <ul>
-          <li>Enterprise‑grade web & mobile applications</li>
-          <li>Cloud‑native, secure, and scalable</li>
-          <li>End‑to‑end transformation journeys</li>
-        </ul>
+      <div class="card">
+        <h3>Software Development</h3>
+        <p>Enterprise‑grade web & mobile applications</p>
+        <p>Cloud‑native, scalable architectures</p>
+        <p>End‑to‑end digital transformation</p>
       </div>
-      <div class="service">
-        <h3>🌐 Technology Enablement</h3>
-        <ul>
-          <li>Tailored frameworks for digital innovation</li>
-          <li>Agile & adaptive delivery models</li>
-          <li>Strategy to execution with measurable outcomes</li>
-        </ul>
+      <div class="card">
+        <h3>Enterprise Technology Enablement</h3>
+        <p>Tailored frameworks for digital innovation</p>
+        <p>Agile engagement models to scale solutions</p>
+        <p>Proven expertise to drive measurable outcomes</p>
       </div>
     </div>
   </section>
@@ -273,57 +150,45 @@
   <section id="why">
     <h2>Why Choose Axspire AI</h2>
     <div class="why-choose">
-      <div class="why-card">AI That Delivers Impact — Not experiments, but proven solutions.</div>
-      <div class="why-card">Tailored to You — Every solution aligned to your goals.</div>
-      <div class="why-card">Expert‑Led — Senior engineers & strategists on your side.</div>
-      <div class="why-card">Future‑Focused — Helping you outpace disruption.</div>
+      <div class="card">
+        <h3>AI‑Driven Innovation</h3>
+        <p>Harnessing the power of AI for real‑world client impact</p>
+      </div>
+      <div class="card">
+        <h3>Tailored Solutions</h3>
+        <p>Technology aligned with each client’s unique goals</p>
+      </div>
+      <div class="card">
+        <h3>Trusted Expertise</h3>
+        <p>Senior engineers & strategists dedicated to client success</p>
+      </div>
+      <div class="card">
+        <h3>Global Perspective</h3>
+        <p>Delivering solutions for a connected, digital‑first world</p>
+      </div>
     </div>
   </section>
 
-  <!-- CTA Banner -->
-  <section class="cta-banner">
-    <h2>The future belongs to those who act intelligently.</h2>
-    <p>Partner with Axspire AI today.</p>
-    <a href="#contact">📩 Let’s Build the Future</a>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
     <h2>Contact Us</h2>
-    <p>Let’s discuss how Axspire AI can power your vision.</p>
+    <p style="text-align:center;">We’d love to discuss how Axspire AI can help bring your vision to life.</p>
     <form>
-      <input type="text" placeholder="Name" required><br>
-      <input type="email" placeholder="Email" required><br>
-      <input type="text" placeholder="Company"><br>
-      <textarea placeholder="Message" rows="4" required></textarea><br>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <input type="text" placeholder="Company Name">
+      <textarea rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
+    <p style="text-align:center; margin-top:20px;">
+      Email: <a href="mailto:info@axspireai.com" style="color:#38bdf8;">info@axspireai.com</a>
+    </p>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 Axspire AI — All Rights Reserved</p>
-    <p>
-      <a href="#">LinkedIn</a> | 
-      <a href="#">Twitter</a> | 
-      <a href="#">GitHub</a>
-    </p>
+    <p>© 2025 Axspire AI. All Rights Reserved.</p>
   </footer>
 
-  <script>
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-    }
-
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener("click", function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute("href")).scrollIntoView({
-          behavior: "smooth"
-        });
-      });
-    });
-  </script>
 </body>
 </html>
