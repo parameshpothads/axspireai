@@ -3,50 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Axspire AI — AI Solutions, Enterprise Software & Client‑Focused Technology Enablement">
   <title>Axspire AI — Aspire Intelligently</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #0f172a;
-      color: #f8fafc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
       line-height: 1.6;
     }
     header {
       text-align: center;
       padding: 60px 20px;
-      background: linear-gradient(to right, #0ea5e9, #1e40af);
+      background: linear-gradient(135deg, #0f172a, #1e293b);
     }
-    header img {
-      width: 120px;
-      margin-bottom: 20px;
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    header h1 {
-      font-size: 2.5rem;
+    .logo-container img {
+      width: 140px;
+      margin-bottom: 15px;
+    }
+    .logo-container h1 {
+      font-size: 2.8rem;
+      color: #38bdf8;
       margin: 0;
     }
     header p {
-      font-size: 1.2rem;
-      margin: 10px 0 20px;
+      font-size: 1.3rem;
+      color: #cbd5e1;
+      margin: 20px 0 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .btn {
-      background: #38bdf8;
-      color: white;
-      padding: 12px 24px;
+    .cta a {
       text-decoration: none;
+      color: white;
+      background: #2563eb;
+      padding: 14px 28px;
+      margin: 10px;
       border-radius: 8px;
-      font-weight: bold;
+      font-size: 1rem;
       transition: background 0.3s;
-      margin: 5px;
     }
-    .btn:hover {
-      background: #0ea5e9;
+    .cta a:hover {
+      background: #1d4ed8;
     }
     section {
       padding: 60px 20px;
-      max-width: 1100px;
+      max-width: 1000px;
       margin: auto;
     }
     h2 {
@@ -61,118 +70,116 @@
     }
     .card {
       background: #1e293b;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: left;
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      color: #93c5fd;
     }
     .contact form {
       display: flex;
       flex-direction: column;
       gap: 15px;
-      max-width: 500px;
-      margin: auto;
     }
     .contact input, .contact textarea {
       padding: 12px;
       border: none;
       border-radius: 8px;
-      background: #334155;
-      color: white;
+      font-size: 1rem;
     }
     .contact button {
-      background: #38bdf8;
+      background: #2563eb;
       color: white;
-      padding: 12px;
+      padding: 14px;
       border: none;
       border-radius: 8px;
-      font-size: 1rem;
       cursor: pointer;
+      font-size: 1rem;
     }
     .contact button:hover {
-      background: #0ea5e9;
+      background: #1d4ed8;
     }
     footer {
       text-align: center;
       padding: 20px;
       background: #1e293b;
       color: #94a3b8;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-
   <!-- Hero Section -->
   <header>
-    <img src="logo1.png" alt="Axspire AI Logo">
-    <h1>Axspire AI</h1>
-    <p>Aspire Intelligently with AI‑powered innovation, enterprise solutions, and strategic enablement.</p>
-    <a href="#services" class="btn">Discover Our Solutions</a>
-    <a href="#contact" class="btn">Schedule a Consultation</a>
+    <div class="logo-container">
+      <img src="logo1.png" alt="Axspire AI Logo">
+      <h1>Axspire AI</h1>
+    </div>
+    <p>Driving intelligent transformation with AI‑powered solutions, enterprise‑grade software, and strategic innovation for our clients worldwide.</p>
+    <div class="cta">
+      <a href="#services">Discover Our Solutions</a>
+      <a href="#contact">Schedule a Consultation</a>
+    </div>
   </header>
 
-  <!-- About Section -->
+  <!-- About Us -->
   <section id="about">
     <h2>Where Innovation Meets Execution</h2>
-    <p style="text-align:center; max-width:800px; margin:auto;">
-      At Axspire AI, we partner with clients to unlock the full potential of technology.
-      Our mission is clear: deliver AI‑driven solutions and transformative strategies
+    <p>
+      At Axspire AI, we partner with our clients to unlock the full potential of technology. 
+      Our mission is to deliver AI‑driven solutions and transformative strategies 
       that fuel intelligent growth and long‑term success.
     </p>
   </section>
 
-  <!-- Services Section -->
+  <!-- Services -->
   <section id="services">
     <h2>Our Services</h2>
     <div class="services">
       <div class="card">
         <h3>AI‑Powered Solutions</h3>
-        <p>Predictive analytics & business intelligence</p>
-        <p>Intelligent process automation</p>
-        <p>Conversational AI & NLP platforms</p>
+        <p>Predictive analytics, business intelligence, intelligent process automation, and conversational AI.</p>
       </div>
       <div class="card">
         <h3>Software Development</h3>
-        <p>Enterprise‑grade web & mobile applications</p>
-        <p>Cloud‑native, scalable architectures</p>
-        <p>End‑to‑end digital transformation</p>
+        <p>Enterprise‑grade web & mobile apps, cloud‑native scalable architectures, and digital transformation.</p>
       </div>
       <div class="card">
         <h3>Enterprise Technology Enablement</h3>
-        <p>Tailored frameworks for digital innovation</p>
-        <p>Agile engagement models to scale solutions</p>
-        <p>Proven expertise to drive measurable outcomes</p>
+        <p>Tailored frameworks, agile engagement models, and measurable outcomes for our clients.</p>
       </div>
     </div>
   </section>
 
   <!-- Why Choose Us -->
-  <section id="why">
+  <section id="why-choose">
     <h2>Why Choose Axspire AI</h2>
     <div class="why-choose">
       <div class="card">
         <h3>AI‑Driven Innovation</h3>
-        <p>Harnessing the power of AI for real‑world client impact</p>
+        <p>Harnessing AI for real‑world impact that empowers our clients’ success.</p>
       </div>
       <div class="card">
         <h3>Tailored Solutions</h3>
-        <p>Technology aligned with each client’s unique goals</p>
+        <p>Custom technology aligned with each client’s unique goals.</p>
       </div>
       <div class="card">
         <h3>Trusted Expertise</h3>
-        <p>Senior engineers & strategists dedicated to client success</p>
+        <p>Senior engineers & strategists dedicated to delivering excellence.</p>
       </div>
       <div class="card">
         <h3>Global Perspective</h3>
-        <p>Delivering solutions for a connected, digital‑first world</p>
+        <p>Solutions designed for a connected, digital‑first world.</p>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- Contact -->
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
-    <p style="text-align:center;">We’d love to discuss how Axspire AI can help bring your vision to life.</p>
+    <p>We’d love to discuss how Axspire AI can help bring your vision to life.</p>
     <form>
       <input type="text" placeholder="Your Name" required>
       <input type="email" placeholder="Your Email" required>
@@ -180,15 +187,13 @@
       <textarea rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-    <p style="text-align:center; margin-top:20px;">
-      Email: <a href="mailto:info@axspireai.com" style="color:#38bdf8;">info@axspireai.com</a>
-    </p>
+    <p>Email: <a href="mailto:info@axspireai.com" style="color:#38bdf8;">info@axspireai.com</a></p>
+    <p>Follow us on LinkedIn | Twitter</p>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 Axspire AI. All Rights Reserved.</p>
+    © 2025 Axspire AI. All Rights Reserved.
   </footer>
-
 </body>
 </html>
