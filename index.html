@@ -17,28 +17,19 @@
       padding: 60px 20px;
       background: linear-gradient(135deg, #0f172a, #1e293b);
     }
-    .logo-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    header img {
+      width: 120px;
+      margin-bottom: 20px;
     }
-    .logo-container img {
-      width: 140px;
-      margin-bottom: 15px;
-    }
-    .logo-container h1 {
+    header h1 {
       font-size: 2.8rem;
       color: #38bdf8;
-      margin: 0;
+      margin-bottom: 10px;
     }
     header p {
       font-size: 1.3rem;
       color: #cbd5e1;
-      margin: 20px 0 30px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-bottom: 30px;
     }
     .cta a {
       text-decoration: none;
@@ -55,28 +46,31 @@
     }
     section {
       padding: 60px 20px;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: auto;
     }
     h2 {
       color: #38bdf8;
       margin-bottom: 20px;
-      text-align: center;
     }
     .services, .why-choose {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
     }
     .card {
       background: #1e293b;
       padding: 25px;
       border-radius: 12px;
-      text-align: left;
+      text-align: center;
     }
     .card h3 {
       margin-bottom: 10px;
       color: #93c5fd;
+    }
+    .card img {
+      width: 80px;
+      margin-bottom: 15px;
     }
     .contact form {
       display: flex;
@@ -113,11 +107,9 @@
 <body>
   <!-- Hero Section -->
   <header>
-    <div class="logo-container">
-      <img src="logo1.png" alt="Axspire AI Logo">
-      <h1>Axspire AI</h1>
-    </div>
-    <p>Driving intelligent transformation with AI‑powered solutions, enterprise‑grade software, and strategic innovation for our clients worldwide.</p>
+    <img src="logo1.png" alt="Axspire AI Logo">
+    <h1>Axspire AI</h1>
+    <p>Driving Innovation with AI‑Powered Solutions and Digital Transformation.</p>
     <div class="cta">
       <a href="#services">Discover Our Solutions</a>
       <a href="#contact">Schedule a Consultation</a>
@@ -139,16 +131,24 @@
     <h2>Our Services</h2>
     <div class="services">
       <div class="card">
+        <img src="ai_solutions.png" alt="AI Solutions">
         <h3>AI‑Powered Solutions</h3>
         <p>Predictive analytics, business intelligence, intelligent process automation, and conversational AI.</p>
       </div>
       <div class="card">
+        <img src="software_dev.png" alt="Software Development">
         <h3>Software Development</h3>
         <p>Enterprise‑grade web & mobile apps, cloud‑native scalable architectures, and digital transformation.</p>
       </div>
       <div class="card">
+        <img src="enterprise_cloud.png" alt="Enterprise Tech Enablement">
         <h3>Enterprise Technology Enablement</h3>
         <p>Tailored frameworks, agile engagement models, and measurable outcomes for our clients.</p>
+      </div>
+      <div class="card">
+        <img src="staffing.png" alt="Talent Solutions">
+        <h3>Strategic Talent Solutions</h3>
+        <p>Helping businesses grow with the right people through AI‑driven staffing and workforce solutions.</p>
       </div>
     </div>
   </section>
@@ -166,8 +166,8 @@
         <p>Custom technology aligned with each client’s unique goals.</p>
       </div>
       <div class="card">
-        <h3>Trusted Expertise</h3>
-        <p>Senior engineers & strategists dedicated to delivering excellence.</p>
+        <h3>Agile & Scalable</h3>
+        <p>Flexible frameworks that grow with your business needs.</p>
       </div>
       <div class="card">
         <h3>Global Perspective</h3>
@@ -187,7 +187,7 @@
       <textarea rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-    <p>Email: <a href="mailto:info@axspireai.com" style="color:#38bdf8;">info@axspireai.com</a></p>
+    <p>Email: info@axspireai.com</p>
     <p>Follow us on LinkedIn | Twitter</p>
   </section>
 
