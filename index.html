@@ -51,12 +51,21 @@
       margin-left: auto;
       margin-right: auto;
     }
+    /* ✅ Fixed CTA styling */
+    .cta {
+      display: flex;
+      flex-wrap: wrap;   /* allow buttons to wrap on smaller screens */
+      justify-content: center;
+      gap: 12px;         /* spacing between buttons */
+    }
     .cta a {
+      flex: 1 1 auto;    /* flexible size */
+      min-width: 200px;  /* ensures readability */
+      text-align: center;
       text-decoration: none;
       color: white;
       background: #2563eb;
       padding: 14px 28px;
-      margin: 10px;
       border-radius: 8px;
       font-size: 1rem;
       transition: background 0.3s;
