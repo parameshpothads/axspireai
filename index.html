@@ -14,8 +14,20 @@
     }
     header {
       text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      padding: 80px 20px;
+      background: url('banner.png') no-repeat center center/cover;
+      color: #f1f5f9;
+      position: relative;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.7); /* dark overlay for readability */
+    }
+    header > * {
+      position: relative;
+      z-index: 1;
     }
     header img {
       width: 120px;
@@ -24,12 +36,20 @@
     header h1 {
       font-size: 2.8rem;
       color: #38bdf8;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+    }
+    header h2 {
+      font-size: 2rem;
+      color: #60a5fa;
+      margin: 10px 0;
     }
     header p {
       font-size: 1.3rem;
-      color: #cbd5e1;
+      color: #e2e8f0;
       margin-bottom: 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .cta a {
       text-decoration: none;
@@ -110,7 +130,11 @@
   <header>
     <img src="logo1.png" alt="Axspire AI Logo">
     <h1>Axspire AI</h1>
-    <p>Empowering businesses with AI‑powered innovation, agentic intelligence, and enterprise‑grade software solutions.</p>
+    <h2>Aspire Intelligently. Deliver Exceptionally.</h2>
+    <p>
+      Empowering clients with AI‑driven innovation, enterprise‑grade solutions, 
+      and capability acceleration that turns ambition into measurable success.
+    </p>
     <div class="cta">
       <a href="#services">Discover Our Solutions</a>
       <a href="#agentic">Explore Agentic AI</a>
@@ -148,9 +172,9 @@
         <p>Tailored frameworks, agile engagement models, and measurable outcomes for our clients.</p>
       </div>
       <div class="card">
-        <img src="staffing.png" alt="Talent Solutions">
-        <h3>Strategic Talent Solutions</h3>
-        <p>Helping businesses grow with the right people through AI‑driven staffing and workforce solutions.</p>
+        <img src="staffing.png" alt="Capability Solutions">
+        <h3>Capability Acceleration Services</h3>
+        <p>Empowering clients to accelerate innovation with AI‑optimized expertise and scalable delivery models.</p>
       </div>
     </div>
   </section>
