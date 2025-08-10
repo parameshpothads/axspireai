@@ -3,7 +3,7 @@ name: Auto Generate Blog Post
 on:
   schedule:
     - cron: '0 8 * * 1'   # every Monday at 8 AM UTC
-  workflow_dispatch:      # manual trigger option
+  workflow_dispatch:
 
 jobs:
   generate_post:
@@ -12,8 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: main          # ensure we work on main branch
-        fetch-depth: 0     # get full history so we can push
+        ref: main
+        fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install dependencies
@@ -27,22 +27,25 @@ jobs:
         PROMPT="Write a detailed, engaging blog post about AI trends in 2025."
 
         echo "Generating full blog post content..."
-        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/gpt2 \
+        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
-          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":400}}")
+          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":500}}")
 
         echo "API response for content:"
         echo "$RESPONSE"
 
-        CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
+        # Extract generated text or detect error
+        CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else .error // empty end')
 
-        if [[ "$CONTENT" == *"error"* ]]; then
+        if [[ -z "$CONTENT" ]] || [[ "$CONTENT" == *"error"* ]]; then
           echo "Error from Hugging Face API: $CONTENT"
           exit 1
         fi
 
-        echo "content=$CONTENT" >> $GITHUB_OUTPUT
+        echo "content<<EOF" >> $GITHUB_OUTPUT
+        echo "$CONTENT" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Generate Summary from Content
       id: generate_summary
@@ -50,11 +53,10 @@ jobs:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
         CONTENT="${{ steps.generate_content.outputs.content }}"
-
         SUMMARY_PROMPT="Summarize the following blog post in 2 sentences:\n\n$CONTENT"
 
         echo "Generating summary..."
-        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/gpt2 \
+        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
           -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
@@ -62,14 +64,16 @@ jobs:
         echo "API response for summary:"
         echo "$RESPONSE"
 
-        SUMMARY=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
+        SUMMARY=$(echo "$RESPONSE" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else .error // empty end')
 
-        if [[ "$SUMMARY" == *"error"* ]]; then
+        if [[ -z "$SUMMARY" ]] || [[ "$SUMMARY" == *"error"* ]]; then
           echo "Error from Hugging Face API (summary): $SUMMARY"
           exit 1
         fi
 
-        echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+        echo "summary<<EOF" >> $GITHUB_OUTPUT
+        echo "$SUMMARY" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Create new post and update posts.json
       run: |
