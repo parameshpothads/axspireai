@@ -1,12 +1,16 @@
 [
-    {
-        "title": "New AI Model Released",
-        "date": "2025-08-10",
-        "content": "We just released our latest AI model with improved accuracy and speed."
-    },
-    {
-        "title": "Tips for Building Hybrid Sites",
-        "date": "2025-08-08",
-        "content": "Hybrid sites give you the flexibility of static and dynamic content. Here's how to build one."
-    }
+  {
+    "title": "New AI Model Released",
+    "date": "2025-08-08",
+    "author": "Axspire AI",
+    "summary": "We’ve launched a new model that speeds up inference by 25% while reducing resource use.",
+    "url": "blog/posts/2025-08-08-new-ai-model.html"
+  },
+  {
+    "title": "Data Engineering Tips for AI",
+    "date": "2025-07-28",
+    "author": "Paramesh",
+    "summary": "Best practices for building reliable pipelines for ML workloads.",
+    "url": "blog/posts/2025-07-28-data-engineering-tips.html"
+  }
 ]
