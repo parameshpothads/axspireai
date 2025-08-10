@@ -1,12 +1,20 @@
 [
-    {
-        "title": "New AI Model Released",
-        "description": "Discover our latest AI model that pushes the boundaries of performance and accuracy.",
-        "url": "https://axspireai.com/blog/new-ai-model"
-    },
-    {
-        "title": "5 Cloud Trends for 2025",
-        "description": "Stay ahead with these key cloud computing trends shaping the future.",
-        "url": "https://axspireai.com/blog/cloud-trends-2025"
-    }
+  {
+    "title": "New AI Model Released",
+    "description": "Discover our latest AI model that pushes the boundaries of performance and accuracy.",
+    "url": "https://axspireai.com/blog/new-ai-model"
+  },
+  {
+    "title": "5 Cloud Trends for 2025",
+    "description": "Stay ahead with these key cloud computing trends shaping the future.",
+    "url": "https://axspireai.com/blog/cloud-trends-2025"
+  },
+  {
+    "id": "ai-trends-in-2025",
+    "title": "AI Trends in 2025",
+    "description": "This authentication method does not have sufficient permissions to call Inference Providers on behalf of user Axspireai",
+    "content": "This authentication method does not have sufficient permissions to call Inference Providers on behalf of user Axspireai",
+    "date": "2025-08-10",
+    "url": "https://axspireai.com/blog/ai-trends-in-2025"
+  }
 ]
