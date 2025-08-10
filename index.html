@@ -1,121 +1,260 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AxspireAI</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Keep your existing CSS -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Axspire AI — Aspire Intelligently</title>
+  <meta name="description" content="Axspire AI — AI-powered solutions, enterprise software & capability acceleration for clients." />
+  <!-- Tailwind Play CDN (no build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Blog section styling */
-    .blog-section {
-      max-width: 1200px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-    .blog-section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .blog-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .blog-card {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease-in-out;
-    }
-    .blog-card:hover {
-      transform: translateY(-4px);
-    }
-    .blog-card img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-    .blog-card h3 {
-      margin: 10px 0;
-      font-size: 1.2rem;
-      color: #222;
-    }
-    .blog-card p {
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .blog-card a {
-      display: inline-block;
-      margin-top: 8px;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    .blog-card a:hover {
-      text-decoration: underline;
-    }
+    /* small custom tweaks */
+    .hero-overlay { background: rgba(15,23,42,0.7); }
+    .card-glow { box-shadow: 0 8px 30px rgba(15,23,42,0.6); }
   </style>
 </head>
-<body>
+<body class="bg-slate-900 text-slate-100 antialiased">
 
-  <!-- 🔹 Your existing AxspireAI header -->
-  <header>
-    <h1>Welcome to AxspireAI</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">Contact</a>
-    </nav>
+  <!-- NAV (simple) -->
+  <nav class="w-full bg-slate-900/80 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="logo1.png" alt="Axspire AI logo" class="w-10 h-10 object-contain" />
+        <span class="text-xl font-semibold text-sky-300">Axspire AI</span>
+      </div>
+      <div class="hidden md:flex gap-4 items-center">
+        <a href="#about" class="text-slate-200 hover:text-white">About</a>
+        <a href="#services" class="text-slate-200 hover:text-white">Services</a>
+        <a href="#agentic" class="text-slate-200 hover:text-white">Agentic AI</a>
+        <a href="#blog" class="text-slate-200 hover:text-white">Blog</a>
+        <a href="#contact" class="text-slate-200 hover:text-white">Contact</a>
+      </div>
+      <div class="md:hidden">
+        <!-- mobile anchor shortcuts -->
+        <button id="mobile-menu-btn" aria-label="Open menu" class="text-slate-200">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image:url('banner.png');"></div>
+    <div class="absolute inset-0 hero-overlay"></div>
+
+    <div class="relative max-w-6xl mx-auto px-6 py-20 text-center">
+      <img src="logo1.png" alt="Axspire AI Logo" class="mx-auto w-28 h-28 object-contain" />
+      <h1 class="mt-6 text-4xl md:text-5xl font-extrabold text-sky-300">Axspire AI</h1>
+      <h2 class="mt-3 text-2xl md:text-3xl text-sky-200 font-semibold">Aspire Intelligently. Deliver Exceptionally.</h2>
+      <p class="mt-4 max-w-3xl mx-auto text-slate-200 text-lg">
+        Empowering clients with AI-driven innovation, enterprise-grade solutions, and capability acceleration that turns ambition into measurable success.
+      </p>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#services" class="min-w-[180px] text-center bg-sky-600 hover:bg-sky-700 text-white rounded-lg px-6 py-3 font-semibold shadow">Discover Our Solutions</a>
+        <a href="#agentic" class="min-w-[180px] text-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-6 py-3 font-semibold shadow">Explore Agentic AI</a>
+        <a href="#contact" class="min-w-[180px] text-center bg-slate-700 hover:bg-slate-600 text-white rounded-lg px-6 py-3 font-semibold shadow">Schedule a Consultation</a>
+      </div>
+    </div>
   </header>
 
-  <!-- 🔹 Your existing main content -->
-  <main>
-    <section>
-      <h2>About Us</h2>
-      <p>AxspireAI is your AI-powered innovation partner...</p>
+  <main class="max-w-6xl mx-auto px-6 -mt-8">
+
+    <!-- ABOUT -->
+    <section id="about" class="bg-slate-800/60 rounded-xl p-8 card-glow mb-8">
+      <h3 class="text-sky-300 text-2xl font-semibold">Where Innovation Meets Execution</h3>
+      <p class="mt-3 text-slate-200 max-w-3xl">
+        At Axspire AI, we partner with our clients to unlock the full potential of technology.
+        We deliver AI-driven and agentic AI solutions, enterprise software, and capability acceleration services designed to generate measurable outcomes.
+      </p>
     </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="mb-10">
+      <h2 class="text-sky-300 text-2xl font-semibold mb-6">Our Services</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-slate-800 rounded-lg p-6 card-glow text-center">
+          <img src="ai_solutions.png" alt="AI Solutions" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">AI-Powered Solutions</h4>
+          <p class="mt-2 text-slate-300 text-sm">Predictive analytics, business intelligence, intelligent automation, and conversational AI.</p>
+        </div>
+
+        <div class="bg-slate-800 rounded-lg p-6 card-glow text-center">
+          <img src="software_dev.png" alt="Software Development" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Software Development</h4>
+          <p class="mt-2 text-slate-300 text-sm">Enterprise web & mobile apps, cloud-native architectures, and end-to-end delivery.</p>
+        </div>
+
+        <div class="bg-slate-800 rounded-lg p-6 card-glow text-center">
+          <img src="enterprise_cloud.png" alt="Enterprise Cloud" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Enterprise Enablement</h4>
+          <p class="mt-2 text-slate-300 text-sm">Tailored frameworks, agile engagement models, and measurable outcomes.</p>
+        </div>
+
+        <div class="bg-slate-800 rounded-lg p-6 card-glow text-center">
+          <img src="staffing.png" alt="Capability Acceleration" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Capability Acceleration Services</h4>
+          <p class="mt-2 text-slate-300 text-sm">Accelerating client capabilities with AI-optimized expertise and scalable delivery models.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="mb-10">
+      <h2 class="text-sky-300 text-2xl font-semibold mb-6">Why Choose Axspire AI</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <h4 class="text-sky-200 font-semibold">AI-Driven Innovation</h4>
+          <p class="mt-2 text-slate-300 text-sm">Applied AI that delivers real business impact.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <h4 class="text-sky-200 font-semibold">Tailored Solutions</h4>
+          <p class="mt-2 text-slate-300 text-sm">Custom engagements aligned with client goals.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <h4 class="text-sky-200 font-semibold">Proven Reliability</h4>
+          <p class="mt-2 text-slate-300 text-sm">Consistent, measurable outcomes you can trust.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <h4 class="text-sky-200 font-semibold">Future-Ready Vision</h4>
+          <p class="mt-2 text-slate-300 text-sm">Scalable solutions designed for a digital-first world.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AGENTIC AI -->
+    <section id="agentic" class="mb-10">
+      <h2 class="text-sky-300 text-2xl font-semibold mb-4">Agentic AI: The Next Evolution</h2>
+      <p class="text-slate-300 max-w-3xl">We design autonomous agents that learn, adapt, and act intelligently to orchestrate workflows and drive outcomes at scale.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <img src="agent1.png" alt="Autonomous Decision Making" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Autonomous Decision-Making</h4>
+          <p class="mt-2 text-slate-300 text-sm">Agents act proactively to reduce manual effort and speed outcomes.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <img src="agent2.png" alt="Context-aware" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Context-Aware Intelligence</h4>
+          <p class="mt-2 text-slate-300 text-sm">Adaptive systems that understand goals and context in real time.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <img src="agent3.png" alt="Workflow Orchestration" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Workflow Orchestration</h4>
+          <p class="mt-2 text-slate-300 text-sm">Coordinating tasks across systems for seamless operations.</p>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-6 text-center">
+          <img src="agent4.png" alt="Scalable Deployment" class="w-20 h-20 mx-auto" />
+          <h4 class="mt-4 text-sky-200 font-semibold">Scalable Deployment</h4>
+          <p class="mt-2 text-slate-300 text-sm">From pilots to enterprise rollouts — scale with confidence.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG (manual + dynamic) -->
+    <section id="blog" class="mb-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-sky-300 text-2xl font-semibold">Blog — AI Insights</h2>
+        <span class="text-sm text-slate-300">Manual & curated AI news</span>
+      </div>
+
+      <!-- Manual (static) posts -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <article class="bg-slate-800 rounded-lg p-6">
+          <h3 class="text-sky-200 text-xl font-semibold">Welcome to Axspire AI Blog</h3>
+          <p class="text-slate-400 text-sm mt-1">August 10, 2025 • Announcements</p>
+          <p class="mt-3 text-slate-300">We’re launching the Axspire AI blog — ideas, case studies and practical guides on AI for business.</p>
+          <a class="inline-block mt-4 text-sky-300" href="#">Read more →</a>
+        </article>
+
+        <article class="bg-slate-800 rounded-lg p-6">
+          <h3 class="text-sky-200 text-xl font-semibold">Agentic AI: The Future of Automation</h3>
+          <p class="text-slate-400 text-sm mt-1">August 9, 2025 • Agentic AI</p>
+          <p class="mt-3 text-slate-300">How autonomous agents will change workflows across industries and unlock new productivity.</p>
+          <a class="inline-block mt-4 text-sky-300" href="#">Read more →</a>
+        </article>
+      </div>
+
+      <!-- Dynamic posts loaded from posts.json -->
+      <div id="dynamic-posts" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+
+      <div id="blog-empty" class="text-slate-400 mt-4" hidden>No dynamic posts yet. Add posts.json to your repo to populate this section.</div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="mb-16 bg-slate-800 rounded-lg p-8">
+      <h2 class="text-sky-300 text-2xl font-semibold mb-3">Contact Us</h2>
+      <p class="text-slate-300 mb-6">We’d love to discuss how Axspire AI can help bring your vision to life.</p>
+
+      <form id="contact-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input name="name" type="text" placeholder="Your Name" required class="p-3 rounded bg-slate-700 focus:outline-none" />
+        <input name="email" type="email" placeholder="Your Email" required class="p-3 rounded bg-slate-700 focus:outline-none" />
+        <input name="company" type="text" placeholder="Company Name (optional)" class="p-3 rounded bg-slate-700 focus:outline-none md:col-span-2" />
+        <textarea name="message" rows="5" placeholder="Your Message" required class="p-3 rounded bg-slate-700 focus:outline-none md:col-span-2"></textarea>
+        <div class="md:col-span-2 flex items-center gap-3">
+          <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded font-semibold">Send Message</button>
+          <a href="mailto:info@axspireai.com" class="text-slate-300">Or email us: info@axspireai.com</a>
+        </div>
+      </form>
+
+      <p id="contact-status" class="mt-4 text-sm text-slate-300"></p>
+    </section>
+
   </main>
 
-  <!-- 🔹 Latest Blog Posts (Dynamic) -->
-  <section class="blog-section">
-    <h2>Latest Blog Posts</h2>
-    <div id="blog-list" class="blog-list">
-      <!-- Dynamic blog cards will be injected here -->
+  <footer class="bg-slate-900 py-6 mt-6">
+    <div class="max-w-6xl mx-auto px-6 text-center text-slate-400">
+      © <span id="year"></span> Axspire AI. All Rights Reserved. • Follow us on <a class="text-sky-300" href="#" target="_blank">LinkedIn</a>
     </div>
-  </section>
-
-  <!-- 🔹 Your existing footer -->
-  <footer>
-    <p>© 2025 AxspireAI. All rights reserved.</p>
   </footer>
 
+  <!-- Scripts: dynamic posts + simple contact handling + small UX -->
   <script>
-    async function loadPosts() {
-      try {
-        const response = await fetch('posts.json');
-        const posts = await response.json();
-        const blogList = document.getElementById('blog-list');
-        blogList.innerHTML = ''; // Clear placeholder content
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-        posts.forEach(post => {
-          const card = document.createElement('div');
-          card.classList.add('blog-card');
+    // Smooth scroll for internal anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
 
-          card.innerHTML = `
-            ${post.image ? `<img src="${post.image}" alt="${post.title}">` : ''}
-            <h3>${post.title}</h3>
-            <p>${post.description}</p>
-            <a href="${post.url}" target="_blank">Read more</a>
+    // Load dynamic posts (posts.json)
+    (async function loadPosts(){
+      try{
+        const resp = await fetch('posts.json', {cache: 'no-store'});
+        if(!resp.ok) { document.getElementById('blog-empty').hidden = false; return; }
+        const posts = await resp.json();
+        if(!posts || posts.length === 0){ document.getElementById('blog-empty').hidden = false; return; }
+        const container = document.getElementById('dynamic-posts');
+        posts.forEach(p=>{
+          const el = document.createElement('article');
+          el.className = 'bg-slate-800 rounded-lg p-6';
+          el.innerHTML = `
+            <h3 class="text-sky-200 text-xl font-semibold">${escapeHtml(p.title)}</h3>
+            <p class="text-slate-400 text-sm mt-1">${escapeHtml(p.date)} • ${escapeHtml(p.author||'Axspire AI')}</p>
+            <p class="mt-3 text-slate-300">${escapeHtml(p.summary || '')}</p>
+            <a class="inline-block mt-4 text-sky-300" href="${escapeHtml(p.url)}" ${p.url?.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>Read more →</a>
           `;
-
-          blogList.appendChild(card);
+          container.appendChild(el);
         });
-      } catch (error) {
-        console.error('Error loading blog posts:', error);
+      }catch(err){
+        console.warn('Could not load posts.json', err);
+        document.getElementById('blog-empty').hidden = false;
       }
-    }
+    })();
 
-    loadPosts();
+    function escapeHtml(s){ if(!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    // Contact form: basic client-side behavior (no server). Suggest using Formspree / Netlify Forms / backend.
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const status = document.getElementById('contact-status');
+      status.textContent = 'Thanks — your message is ready to send. To enable form submissions, connect Formspree or another email service.';
+      status.className = 'text-amber-300';
+      // Optionally implement: send using Formspree / EmailJS / serverless function
+    });
   </script>
 </body>
 </html>
