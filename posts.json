@@ -1,16 +1,12 @@
 [
-  {
-    "title": "New AI Model Released",
-    "date": "2025-08-08",
-    "author": "Axspire AI",
-    "summary": "We’ve launched a new model that speeds up inference by 25% while reducing resource use.",
-    "url": "blog/posts/2025-08-08-new-ai-model.html"
-  },
-  {
-    "title": "Data Engineering Tips for AI",
-    "date": "2025-07-28",
-    "author": "Paramesh",
-    "summary": "Best practices for building reliable pipelines for ML workloads.",
-    "url": "blog/posts/2025-07-28-data-engineering-tips.html"
-  }
+    {
+        "title": "New AI Model Released",
+        "description": "Discover our latest AI model that pushes the boundaries of performance and accuracy.",
+        "url": "https://axspireai.com/blog/new-ai-model"
+    },
+    {
+        "title": "5 Cloud Trends for 2025",
+        "description": "Stay ahead with these key cloud computing trends shaping the future.",
+        "url": "https://axspireai.com/blog/cloud-trends-2025"
+    }
 ]
