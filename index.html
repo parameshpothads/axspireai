@@ -1,130 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Axspire AI - Innovative AI & Cloud Solutions">
-    <title>Axspire AI - Innovating the Future</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background: #0d47a1;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            background: #1565c0;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-        }
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        main {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-            background: white;
-        }
-        section {
-            margin-bottom: 40px;
-        }
-        h2 {
-            color: #0d47a1;
-        }
-        .dynamic-content {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: #0d47a1;
-            color: white;
-            margin-top: 40px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AxspireAI</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Keep your existing CSS -->
+  <style>
+    /* Blog section styling */
+    .blog-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    .blog-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .blog-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .blog-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+    }
+    .blog-card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .blog-card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: #222;
+    }
+    .blog-card p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .blog-card a {
+      display: inline-block;
+      margin-top: 8px;
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .blog-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>Axspire AI</h1>
-    <p>Innovative AI & Cloud Solutions</p>
-</header>
+  <!-- 🔹 Your existing AxspireAI header -->
+  <header>
+    <h1>Welcome to AxspireAI</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
 
-<nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#updates">Latest Updates</a>
-</nav>
-
-<main>
-    <!-- Manual Static Section -->
-    <section id="about">
-        <h2>About Us</h2>
-        <p>
-            Axspire AI is a cutting-edge technology company specializing in Artificial Intelligence,
-            Cloud Computing, and Data Engineering. We deliver scalable and intelligent solutions
-            that empower businesses to innovate and grow in the digital age.
-        </p>
+  <!-- 🔹 Your existing main content -->
+  <main>
+    <section>
+      <h2>About Us</h2>
+      <p>AxspireAI is your AI-powered innovation partner...</p>
     </section>
+  </main>
 
-    <section id="services">
-        <h2>Our Services</h2>
-        <ul>
-            <li>AI-Powered Business Solutions</li>
-            <li>Cloud Infrastructure & Optimization</li>
-            <li>Data Engineering & Analytics</li>
-            <li>Custom Software Development</li>
-        </ul>
-    </section>
+  <!-- 🔹 Latest Blog Posts (Dynamic) -->
+  <section class="blog-section">
+    <h2>Latest Blog Posts</h2>
+    <div id="blog-list" class="blog-list">
+      <!-- Dynamic blog cards will be injected here -->
+    </div>
+  </section>
 
-    <!-- Dynamic Content Section -->
-    <section id="updates">
-        <h2>Latest Updates</h2>
-        <div id="updates-container" class="dynamic-content">
-            <p>Loading updates...</p>
-        </div>
-    </section>
-</main>
+  <!-- 🔹 Your existing footer -->
+  <footer>
+    <p>© 2025 AxspireAI. All rights reserved.</p>
+  </footer>
 
-<footer>
-    <p>&copy; 2025 Axspire AI. All rights reserved.</p>
-</footer>
+  <script>
+    async function loadPosts() {
+      try {
+        const response = await fetch('posts.json');
+        const posts = await response.json();
+        const blogList = document.getElementById('blog-list');
+        blogList.innerHTML = ''; // Clear placeholder content
 
-<script>
-    // Fetch dynamic updates from JSON file in GitHub
-    fetch('updates.json') // Make sure this file exists in your GitHub Pages repo
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById('updates-container');
-            container.innerHTML = '';
-            data.forEach(update => {
-                const item = document.createElement('div');
-                item.innerHTML = `<h3>${update.title}</h3><p>${update.date}</p><p>${update.content}</p>`;
-                container.appendChild(item);
-            });
-        })
-        .catch(error => {
-            document.getElementById('updates-container').innerHTML = '<p>Unable to load updates.</p>';
-            console.error('Error fetching updates:', error);
+        posts.forEach(post => {
+          const card = document.createElement('div');
+          card.classList.add('blog-card');
+
+          card.innerHTML = `
+            ${post.image ? `<img src="${post.image}" alt="${post.title}">` : ''}
+            <h3>${post.title}</h3>
+            <p>${post.description}</p>
+            <a href="${post.url}" target="_blank">Read more</a>
+          `;
+
+          blogList.appendChild(card);
         });
-</script>
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+      }
+    }
 
+    loadPosts();
+  </script>
 </body>
 </html>
