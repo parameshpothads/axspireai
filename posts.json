@@ -1,9 +1,17 @@
 [
   {
+    "title": "Agentic AI: The Future of Automation",
+    "excerpt": "Discover how Agentic AI is revolutionizing automation and enabling machines to make autonomous decisions...",
+    "content": "Agentic AI is designed to operate with minimal human intervention. It allows machines to analyze, decide, and act independently, reshaping industries from manufacturing to healthcare. The future holds AI-driven ecosystems that can handle complex operations seamlessly."
+  },
+  {
     "title": "New AI Model Released",
-    "date": "2025-08-08",
-    "author": "Axspire AI",
-    "summary": "We launched a new model that speeds up inference by 25%.",
-    "url": "blog/posts/2025-08-08-new-ai-model.html"
+    "excerpt": "The latest AI model offers unprecedented accuracy and efficiency in natural language understanding...",
+    "content": "This new AI model is trained on trillions of parameters, making it one of the most capable language systems to date. It can perform tasks ranging from real-time translation to complex problem solving, pushing the boundaries of what's possible in AI."
+  },
+  {
+    "title": "Hybrid Websites: Merging Static and Dynamic Content",
+    "excerpt": "Hybrid websites combine the performance of static pages with the flexibility of dynamic content loading...",
+    "content": "Hybrid websites provide a smooth user experience while retaining fast load times. By loading blog posts and updates dynamically via JSON or APIs, businesses can keep content fresh without compromising performance."
   }
 ]
