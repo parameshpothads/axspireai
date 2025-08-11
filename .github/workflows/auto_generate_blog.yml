@@ -21,8 +21,8 @@ jobs:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
         PROMPT="Write a detailed, engaging blog post about AI trends in 2025."
-        MODEL_URL="https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
-        FALLBACK_URL="https://api-inference.huggingface.co/models/google/flan-t5-large"
+        MODEL_URL="https://api-inference.huggingface.co/models/gpt2"
+        FALLBACK_URL="https://api-inference.huggingface.co/models/bigscience/bloom-560m"
 
         echo "Generating full blog post content..."
         HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" -X POST "$MODEL_URL" \
