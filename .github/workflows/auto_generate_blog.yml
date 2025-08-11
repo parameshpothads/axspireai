@@ -3,7 +3,7 @@ name: Auto Generate Blog Post
 on:
   schedule:
     - cron: '0 8 * * 1'   # every Monday at 8 AM UTC
-  workflow_dispatch:
+  workflow_dispatch:      # manual trigger
 
 jobs:
   generate_post:
@@ -20,35 +20,22 @@ jobs:
       env:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
+        MODEL="EleutherAI/gpt-neo-2.7B"
         PROMPT="Write a detailed, engaging blog post about AI trends in 2025."
-        MODEL_URL="https://api-inference.huggingface.co/models/gpt2"
-        FALLBACK_URL="https://api-inference.huggingface.co/models/bigscience/bloom-560m"
 
         echo "Generating full blog post content..."
-        HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" -X POST "$MODEL_URL" \
+        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/$MODEL \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
-          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_new_tokens\":400}}")
+          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":400}}")
 
-        if [ "$HTTP_CODE" -ne 200 ]; then
-          echo "⚠️ Primary model failed with HTTP $HTTP_CODE. Falling back..."
-          HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" -X POST "$FALLBACK_URL" \
-            -H "Authorization: Bearer $HF_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_new_tokens\":400}}")
-        fi
+        echo "API response for content:"
+        echo "$RESPONSE"
 
-        if [ "$HTTP_CODE" -ne 200 ]; then
-          echo "❌ Both models failed with HTTP $HTTP_CODE"
-          cat response.json
-          exit 1
-        fi
+        CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
 
-        CONTENT=$(jq -r '.[0].generated_text // .[0].output_text // empty' response.json)
-
-        if [ -z "$CONTENT" ]; then
-          echo "❌ No valid text found in model output."
-          cat response.json
+        if [[ "$CONTENT" == *"error"* || -z "$CONTENT" ]]; then
+          echo "Error from Hugging Face API: $CONTENT"
           exit 1
         fi
 
@@ -59,36 +46,24 @@ jobs:
       env:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
+        MODEL="EleutherAI/gpt-neo-2.7B"
         CONTENT="${{ steps.generate_content.outputs.content }}"
+
         SUMMARY_PROMPT="Summarize the following blog post in 2 sentences:\n\n$CONTENT"
-        MODEL_URL="https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
-        FALLBACK_URL="https://api-inference.huggingface.co/models/google/flan-t5-large"
 
         echo "Generating summary..."
-        HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" -X POST "$MODEL_URL" \
+        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/$MODEL \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
-          -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_new_tokens\":100}}")
+          -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
 
-        if [ "$HTTP_CODE" -ne 200 ]; then
-          echo "⚠️ Primary model failed with HTTP $HTTP_CODE. Falling back..."
-          HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" -X POST "$FALLBACK_URL" \
-            -H "Authorization: Bearer $HF_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_new_tokens\":100}}")
-        fi
+        echo "API response for summary:"
+        echo "$RESPONSE"
 
-        if [ "$HTTP_CODE" -ne 200 ]; then
-          echo "❌ Both models failed with HTTP $HTTP_CODE"
-          cat response.json
-          exit 1
-        fi
+        SUMMARY=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
 
-        SUMMARY=$(jq -r '.[0].generated_text // .[0].output_text // empty' response.json)
-
-        if [ -z "$SUMMARY" ]; then
-          echo "❌ No valid text found in summary output."
-          cat response.json
+        if [[ "$SUMMARY" == *"error"* || -z "$SUMMARY" ]]; then
+          echo "Error from Hugging Face API (summary): $SUMMARY"
           exit 1
         fi
 
@@ -98,7 +73,6 @@ jobs:
       run: |
         CONTENT="${{ steps.generate_content.outputs.content }}"
         SUMMARY="${{ steps.generate_summary.outputs.summary }}"
-
         TITLE="AI Trends in 2025"
         SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
         DATE=$(date -I)
@@ -123,15 +97,14 @@ jobs:
 
     - name: Commit and push changes
       env:
-        GH_TOKEN: ${{ secrets.GH_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add posts.json
-
         if git diff --cached --quiet; then
           echo "No changes to commit, skipping push"
         else
           git commit -m "Auto add blog post generated by Hugging Face"
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+          git push
         fi
