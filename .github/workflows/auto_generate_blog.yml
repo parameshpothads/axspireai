@@ -1,152 +1,42 @@
-name: Auto Generate Blog Post
-
-on:
-  schedule:
-    - cron: '0 8 * * 1'
-  workflow_dispatch:
-
-jobs:
-  generate_post:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: main
-        fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y jq curl
-
-    - name: Generate Blog Post Content
+- name: Generate Blog Post Content
       id: generate_content
       env:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
         PROMPT="Write a detailed, engaging blog post about AI trends in 2025."
         MODEL_URL="https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
+        FALLBACK_URL="https://api-inference.huggingface.co/models/google/flan-t5-large"
 
         echo "Generating full blog post content..."
-        RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$MODEL_URL" \
+        
+        # Try primary model
+        RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST "$MODEL_URL" \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
-          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":500}}")
+          -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":400}}")
 
-        BODY=$(echo "$RESPONSE" | head -n1)
-        STATUS=$(echo "$RESPONSE" | tail -n1)
-
-        if [ "$STATUS" != "200" ]; then
-          echo "❌ Hugging Face API error ($STATUS):"
-          echo "$BODY"
-          exit 1
-        fi
-
-        # Validate JSON before parsing
-        if ! echo "$BODY" | jq . >/dev/null 2>&1; then
-          echo "❌ Hugging Face API did not return valid JSON:"
-          echo "$BODY"
-          exit 1
-        fi
-
-        CONTENT=$(echo "$BODY" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else empty end')
-
-        if [[ -z "$CONTENT" ]]; then
-          echo "❌ No generated_text found in response"
-          exit 1
-        fi
-
-        echo "content<<EOF" >> $GITHUB_OUTPUT
-        echo "$CONTENT" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-
-    - name: Generate Summary from Content
-      id: generate_summary
-      env:
-        HF_API_KEY: ${{ secrets.HF_API_KEY }}
-      run: |
-        CONTENT="${{ steps.generate_content.outputs.content }}"
-        SUMMARY_PROMPT="Summarize the following blog post in 2 sentences:\n\n$CONTENT"
-        MODEL_URL="https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
-
-        echo "Generating summary..."
-        RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$MODEL_URL" \
-          -H "Authorization: Bearer $HF_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
-
-        BODY=$(echo "$RESPONSE" | head -n1)
-        STATUS=$(echo "$RESPONSE" | tail -n1)
-
-        if [ "$STATUS" != "200" ]; then
-          echo "❌ Hugging Face API error ($STATUS):"
-          echo "$BODY"
-          exit 1
-        fi
-
-        if ! echo "$BODY" | jq . >/dev/null 2>&1; then
-          echo "❌ Hugging Face API did not return valid JSON:"
-          echo "$BODY"
-          exit 1
-        fi
-
-        SUMMARY=$(echo "$BODY" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else empty end')
-
-        if [[ -z "$SUMMARY" ]]; then
-          echo "❌ No generated_text found in summary response"
-          exit 1
-        fi
-
-        echo "summary<<EOF" >> $GITHUB_OUTPUT
-        echo "$SUMMARY" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-
-    - name: Create new post and update posts.json
-      run: |
-        CONTENT="${{ steps.generate_content.outputs.content }}"
-        SUMMARY="${{ steps.generate_summary.outputs.summary }}"
-        TITLE="AI Trends in 2025"
-
-        SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
-        DATE=$(date -I)
-        URL="https://axspireai.com/blog/$SLUG"
-
-        NEW_POST=$(jq -n \
-          --arg id "$SLUG" \
-          --arg title "$TITLE" \
-          --arg description "$SUMMARY" \
-          --arg content "$CONTENT" \
-          --arg date "$DATE" \
-          --arg url "$URL" \
-          '{id: $id, title: $title, description: $description, content: $content, date: $date, url: $url}')
-
-        if [ ! -f posts.json ]; then
-          echo "[]" > posts.json
-        fi
-
-        jq ". += [$NEW_POST]" posts.json > posts_tmp.json && mv posts_tmp.json posts.json
-
-        echo "Updated posts.json:"
-        cat posts.json
-
-    - name: Commit and push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-
-        git fetch origin $BRANCH_NAME
-        git checkout $BRANCH_NAME
-
-        git add posts.json
-
-        if git diff --cached --quiet; then
-          echo "No changes to commit, skipping push"
+        if [ "$RESPONSE" -eq 404 ]; then
+          echo "⚠️ Primary model not found or not accessible. Falling back to public model..."
+          RESPONSE=$(curl -s -X POST "$FALLBACK_URL" \
+            -H "Authorization: Bearer $HF_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":400}}")
         else
-          git commit -m "Auto add blog post generated by Hugging Face"
-          git pull --rebase origin $BRANCH_NAME
-          git push origin HEAD:$BRANCH_NAME
+          RESPONSE=$(cat response.json)
         fi
+
+        # Check if JSON is valid
+        if ! echo "$RESPONSE" | jq . >/dev/null 2>&1; then
+          echo "❌ Hugging Face API returned invalid JSON:"
+          echo "$RESPONSE"
+          exit 1
+        fi
+
+        CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
+
+        if [[ "$CONTENT" == *"error"* ]]; then
+          echo "❌ Error from Hugging Face API: $CONTENT"
+          exit 1
+        fi
+
+        echo "::set-output name=content::$CONTENT"
