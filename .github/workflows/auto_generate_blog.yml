@@ -2,7 +2,7 @@ name: Auto Generate Blog Post
 
 on:
   schedule:
-    - cron: '0 8 * * 1'   # every Monday at 8 AM UTC
+    - cron: '0 8 * * 1'
   workflow_dispatch:
 
 jobs:
@@ -25,21 +25,34 @@ jobs:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
       run: |
         PROMPT="Write a detailed, engaging blog post about AI trends in 2025."
+        MODEL_URL="https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
 
         echo "Generating full blog post content..."
-        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct \
+        RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$MODEL_URL" \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
           -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":500}}")
 
-        echo "API response for content:"
-        echo "$RESPONSE"
+        BODY=$(echo "$RESPONSE" | head -n1)
+        STATUS=$(echo "$RESPONSE" | tail -n1)
 
-        # Extract generated text or detect error
-        CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else .error // empty end')
+        if [ "$STATUS" != "200" ]; then
+          echo "❌ Hugging Face API error ($STATUS):"
+          echo "$BODY"
+          exit 1
+        fi
 
-        if [[ -z "$CONTENT" ]] || [[ "$CONTENT" == *"error"* ]]; then
-          echo "Error from Hugging Face API: $CONTENT"
+        # Validate JSON before parsing
+        if ! echo "$BODY" | jq . >/dev/null 2>&1; then
+          echo "❌ Hugging Face API did not return valid JSON:"
+          echo "$BODY"
+          exit 1
+        fi
+
+        CONTENT=$(echo "$BODY" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else empty end')
+
+        if [[ -z "$CONTENT" ]]; then
+          echo "❌ No generated_text found in response"
           exit 1
         fi
 
@@ -54,20 +67,33 @@ jobs:
       run: |
         CONTENT="${{ steps.generate_content.outputs.content }}"
         SUMMARY_PROMPT="Summarize the following blog post in 2 sentences:\n\n$CONTENT"
+        MODEL_URL="https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
 
         echo "Generating summary..."
-        RESPONSE=$(curl -s -X POST https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct \
+        RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$MODEL_URL" \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
           -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
 
-        echo "API response for summary:"
-        echo "$RESPONSE"
+        BODY=$(echo "$RESPONSE" | head -n1)
+        STATUS=$(echo "$RESPONSE" | tail -n1)
 
-        SUMMARY=$(echo "$RESPONSE" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else .error // empty end')
+        if [ "$STATUS" != "200" ]; then
+          echo "❌ Hugging Face API error ($STATUS):"
+          echo "$BODY"
+          exit 1
+        fi
 
-        if [[ -z "$SUMMARY" ]] || [[ "$SUMMARY" == *"error"* ]]; then
-          echo "Error from Hugging Face API (summary): $SUMMARY"
+        if ! echo "$BODY" | jq . >/dev/null 2>&1; then
+          echo "❌ Hugging Face API did not return valid JSON:"
+          echo "$BODY"
+          exit 1
+        fi
+
+        SUMMARY=$(echo "$BODY" | jq -r 'if type=="array" and .[0].generated_text then .[0].generated_text else empty end')
+
+        if [[ -z "$SUMMARY" ]]; then
+          echo "❌ No generated_text found in summary response"
           exit 1
         fi
 
