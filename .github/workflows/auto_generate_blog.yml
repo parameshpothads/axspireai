@@ -1,4 +1,21 @@
-- name: Generate Blog Post Content
+name: Auto Generate Blog Post
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # every Monday at 8 AM UTC
+  workflow_dispatch:      # manual trigger option
+
+jobs:
+  generate_post:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y jq curl
+
+    - name: Generate Blog Post Content
       id: generate_content
       env:
         HF_API_KEY: ${{ secrets.HF_API_KEY }}
@@ -10,13 +27,13 @@
         echo "Generating full blog post content..."
         
         # Try primary model
-        RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST "$MODEL_URL" \
+        HTTP_CODE=$(curl -s -w "%{http_code}" -o response.json -X POST "$MODEL_URL" \
           -H "Authorization: Bearer $HF_API_KEY" \
           -H "Content-Type: application/json" \
           -d "{\"inputs\":\"$PROMPT\",\"parameters\":{\"max_length\":400}}")
 
-        if [ "$RESPONSE" -eq 404 ]; then
-          echo "⚠️ Primary model not found or not accessible. Falling back to public model..."
+        if [ "$HTTP_CODE" -eq 404 ]; then
+          echo "⚠️ Primary model not found or inaccessible. Falling back..."
           RESPONSE=$(curl -s -X POST "$FALLBACK_URL" \
             -H "Authorization: Bearer $HF_API_KEY" \
             -H "Content-Type: application/json" \
@@ -25,9 +42,8 @@
           RESPONSE=$(cat response.json)
         fi
 
-        # Check if JSON is valid
         if ! echo "$RESPONSE" | jq . >/dev/null 2>&1; then
-          echo "❌ Hugging Face API returned invalid JSON:"
+          echo "❌ Invalid JSON from Hugging Face:"
           echo "$RESPONSE"
           exit 1
         fi
@@ -35,8 +51,90 @@
         CONTENT=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
 
         if [[ "$CONTENT" == *"error"* ]]; then
-          echo "❌ Error from Hugging Face API: $CONTENT"
+          echo "❌ API Error: $CONTENT"
           exit 1
         fi
 
         echo "::set-output name=content::$CONTENT"
+
+    - name: Generate Summary from Content
+      id: generate_summary
+      env:
+        HF_API_KEY: ${{ secrets.HF_API_KEY }}
+      run: |
+        CONTENT="${{ steps.generate_content.outputs.content }}"
+        SUMMARY_PROMPT="Summarize the following blog post in 2 sentences:\n\n$CONTENT"
+        MODEL_URL="https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
+        FALLBACK_URL="https://api-inference.huggingface.co/models/google/flan-t5-large"
+
+        echo "Generating summary..."
+        
+        HTTP_CODE=$(curl -s -w "%{http_code}" -o response.json -X POST "$MODEL_URL" \
+          -H "Authorization: Bearer $HF_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
+
+        if [ "$HTTP_CODE" -eq 404 ]; then
+          echo "⚠️ Primary model not found or inaccessible. Falling back..."
+          RESPONSE=$(curl -s -X POST "$FALLBACK_URL" \
+            -H "Authorization: Bearer $HF_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"inputs\":\"$SUMMARY_PROMPT\",\"parameters\":{\"max_length\":100}}")
+        else
+          RESPONSE=$(cat response.json)
+        fi
+
+        if ! echo "$RESPONSE" | jq . >/dev/null 2>&1; then
+          echo "❌ Invalid JSON from Hugging Face:"
+          echo "$RESPONSE"
+          exit 1
+        fi
+
+        SUMMARY=$(echo "$RESPONSE" | jq -r 'if type=="array" then .[0].generated_text else .error end')
+
+        if [[ "$SUMMARY" == *"error"* ]]; then
+          echo "❌ API Error: $SUMMARY"
+          exit 1
+        fi
+
+        echo "::set-output name=summary::$SUMMARY"
+
+    - name: Create new post and update posts.json
+      run: |
+        CONTENT="${{ steps.generate_content.outputs.content }}"
+        SUMMARY="${{ steps.generate_summary.outputs.summary }}"
+        TITLE="AI Trends in 2025"
+        SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
+        DATE=$(date -I)
+        URL="https://axspireai.com/blog/$SLUG"
+
+        NEW_POST=$(jq -n \
+          --arg id "$SLUG" \
+          --arg title "$TITLE" \
+          --arg description "$SUMMARY" \
+          --arg content "$CONTENT" \
+          --arg date "$DATE" \
+          --arg url "$URL" \
+          '{id: $id, title: $title, description: $description, content: $content, date: $date, url: $url}')
+
+        if [ ! -f posts.json ]; then
+          echo "[]" > posts.json
+        fi
+
+        jq ". += [$NEW_POST]" posts.json > posts_tmp.json && mv posts_tmp.json posts.json
+        echo "Updated posts.json:"
+        cat posts.json
+
+    - name: Commit and push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add posts.json
+        if git diff --cached --quiet; then
+          echo "No changes to commit."
+        else
+          git commit -m "Auto add blog post generated by Hugging Face"
+          git push
+        fi
