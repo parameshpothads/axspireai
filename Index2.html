@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Axspire AI</title>
+  <style>
+    /* --- Bounce Animation --- */
+    @keyframes bounceIn {
+      0%   { opacity: 0; transform: translateY(-120px); }
+      60%  { opacity: 1; transform: translateY(20px); }
+      80%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Navbar text animation */
+    .company-name span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(-80px);
+    }
+
+    /* Hero text animation */
+    .hero-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(-120px);
+    }
+
+    /* Reset state so JS can re-trigger */
+    .animate span {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body style="background:#0f172a; color:white; font-family:sans-serif;">
+
+  <!-- Navbar -->
+  <nav style="padding:1rem; display:flex; align-items:center; gap:1rem;">
+    <a href="/" class="flex items-center gap-3" aria-label="Axspire AI Home">
+      <img src="logo1.svg" alt="Axspire AI company logo" width="40" height="40" class="w-10 h-10 object-contain" />
+      <span class="company-name text-xl font-semibold text-sky-300">
+        <span>A</span><span>x</span><span>s</span><span>p</span><span>i</span><span>r</span><span>e</span>&nbsp;<span>A</span><span>I</span>
+      </span>
+    </a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section style="height:90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+    <h1 class="hero-title mt-6 text-4xl md:text-5xl font-extrabold text-sky-300">
+      <span>A</span><span>x</span><span>s</span><span>p</span><span>i</span><span>r</span><span>e</span>&nbsp;<span>A</span><span>I</span>
+    </h1>
+    <p style="margin-top:1rem; max-width:600px; color:#cbd5e1;">
+      Innovative AI solutions to empower your business and accelerate growth.
+    </p>
+  </section>
+
+  <!-- Some filler to allow scrolling -->
+  <section style="height:100vh; display:flex; justify-content:center; align-items:center;">
+    <h2>Scroll back up to see the animation replay 🎉</h2>
+  </section>
+
+  <!-- Script for scroll re-animation -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const animatedTextBlocks = document.querySelectorAll(".company-name, .hero-title");
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const spans = entry.target.querySelectorAll("span");
+            spans.forEach((span, i) => {
+              span.style.animation = "none";
+              span.offsetHeight; // Force reflow
+              span.style.animation = `bounceIn 0.8s forwards ${i * 0.1}s`;
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      animatedTextBlocks.forEach(block => {
+        block.classList.add("animate");
+        observer.observe(block);
+      });
+    });
+  </script>
+</body>
+</html>
